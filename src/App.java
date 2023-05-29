@@ -4,7 +4,7 @@ import javax.swing.JOptionPane;
 public class App {
     public static void main(String[] args) {
         int opc;
-        
+        //La Interfaz se realizara en apache, se ve que es mas facil desde ahi, y podre hacerlo pro pro - Erick
         //Creacion de Objetos
         Base b1 = new Base();
         //Crear archivos necesarios
@@ -16,7 +16,7 @@ public class App {
         do{ 
             opc = Integer.parseInt(JOptionPane.showInputDialog("\n" +
             "=======================================\n"+
-            "       Bienvenido a APPmasterXD69      \n"+
+            "       Bienvenido a ManageMoney      \n"+
             "=======================================\n"+
             "================= MENU ================\n"+
             "1. Registrar ingreso. \n"+
@@ -28,6 +28,7 @@ public class App {
             "=======================================\n" +
             "Ingrese una opcion: "));
 
+            
             switch (opc) {
                 case 1:
                     //Ingresar Ingresos
