@@ -1,4 +1,3 @@
-//Jordy se va a mimir, gn C:
 import javax.swing.JOptionPane;
 import java.time.LocalDate;
 //Gestor de Movimientos
