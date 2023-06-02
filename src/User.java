@@ -7,6 +7,8 @@ public class User extends Base {
     protected String user;
     protected String pass;
 
+    
+    
     //Encapsulamiento
     /**
      * Funcion para establecer un nombre
