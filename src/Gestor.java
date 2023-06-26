@@ -141,7 +141,7 @@ public class Gestor {
             //Recorremos el array
             for (String infoTransaction : transaction) {
                 String[] datos = infoTransaction.split(",");
-                if (datos[0] == "1"){tipo = "Egreso";} else {tipo = "Ingreso";}
+                if (Integer.parseInt(datos[0]) == 1){tipo = "Egreso";} else {tipo = "Ingreso";}
                 System.out.print(
                      "\nTipo: " + tipo +
                     " - Cantidad: " + datos[1] +

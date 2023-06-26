@@ -1,4 +1,0 @@
-0,45.0,2023-06-25,"hola gracias por esto"
-1,34.0,2023-06-25,"gracias"
-0,98.0,2023-06-25,"jaja ganancia del chongo"
-1,45.65,2023-06-25,"increible gasto en amazon"
