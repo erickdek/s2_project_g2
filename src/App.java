@@ -1,56 +1,71 @@
 import javax.swing.JOptionPane;
 import java.time.LocalDate;
+import java.util.Scanner;
 //Gestor de Movimientos
 public class App {
+
     public static void main(String[] args) {
-        int opc, flag=0, login = 0; String desc; double monto=0.0;
-        //La Interfaz se realizara en apache, se ve que es mas facil desde ahi, y podre hacerlo pro pro - Erick
+        int MenuOP = 0, loginOP = 0, flag = 0, login = 0;
+        double monto = 0.0;
+        String desc;
+        
         //Creacion de Objetos
-        Base root = new Base();
-        LocalDate fecha = LocalDate.now();
+        Scanner sc = new Scanner(System.in);
+        Menu mn = new Menu(); //Menus
+        Base root = new Base(); //Gestion de archivos
+        Gestor gs = new Gestor(); //Movimientos
+        LocalDate fecha = LocalDate.now(); //Fechas
+        
         //Crear archivos necesarios
         root.checkFiles();
-        Movimientos trans = new Movimientos();
+
         do{
             if(login==0){
-                //Se va a repetir el proceso hasta que el usuario presione la opcion de salir
-                String usuario = JOptionPane.showInputDialog("Ingrese su usuario: ");
-                trans.ID = 1;
-                trans.user = usuario;
-                login = 1;
-            } else if(login ==1){
-                do{ 
-                    opc = Integer.parseInt(JOptionPane.showInputDialog("\n" +
-                    "=======================================\n"+
-                    "       Bienvenido a ManageMoney      \n"+
-                    "=======================================\n"+
-                    "================= MENU ================\n"+
-                    "1. Registrar ingreso. \n"+
-                    "2. Registrar engreso. \n"+ 
-                    "3. Eliminar movimientos. \n"+
-                    "4. Historial de movimientos. \n"+
-                    "5. Ver Patrimonio. \n" +
-                    "6. Salir. \n" +
-                    "=======================================\n" +
-                    "Ingrese una opcion: "));
-
-                    
-                    switch (opc) {
+                do {
+                    loginOP = mn.loginUser(sc);
+                    switch(loginOP){
                         case 1:
-                            //Ingresar Ingresos - Se solicitara el int tipo, double monto, String fecha (dia-mes-anio), String descripcion. 
-                            monto = Double.parseDouble(JOptionPane.showInputDialog("\n" +
-                            "Ingrese un monto:\n"));
-                            desc = JOptionPane.showInputDialog("\n" +
-                            "Ingrese una descripción de su ingreso:\n");
-                            trans.setMovimiento(0, monto, fecha, desc);
+                            if ( gs.Login(sc) ){login = 1;}
                             break;
                         case 2:
-                            //Ingresar Egresos
-                            monto = Double.parseDouble(JOptionPane.showInputDialog("\n" +
-                            "Ingrese un monto:\n"));
-                            desc = JOptionPane.showInputDialog("\n" +
-                            "Ingrese una descripción de su egreso:\n");
-                            trans.setMovimiento(1, monto, fecha, desc);
+                            if ( gs.Login(sc) ){login = 1;}
+                            break;
+                        case 3:
+                            System.out.print("\nGracias por usar...");
+                            flag = 1; login = 0;
+                            break;
+                        }
+                } while ( login == 0 ^ loginOP == 3 );
+            } else if(login == 1){
+                do{ 
+                    MenuOP = mn.MenuPrincipal(sc);
+                    
+                    switch (MenuOP) {
+                        case 1:
+                            try {
+                                //Ingresar Ingreso
+                                System.out.print("\nIngrese un monto del Ingreso: ");
+                                monto = sc.nextDouble();
+                                sc.nextLine();
+                                System.out.print("Ingrese una descripcion pequeña (Sin comas): ");
+                                desc = sc.nextLine();
+                                gs.setMovimiento(0, monto, fecha, desc);
+                            } catch (Exception e) {
+                                System.out.print("\nHubo un error: " + e.getMessage());
+                            }
+                            break;
+                        case 2:
+                            try {
+                                //Ingresar Egresos
+                                System.out.print("\nIngrese un monto del Egreso: ");
+                                monto = sc.nextDouble();
+                                sc.nextLine();
+                                System.out.print("Ingrese una descripcion pequeña (Sin comas): ");
+                                desc = sc.nextLine();
+                                gs.setMovimiento(1, monto, fecha, desc);
+                            } catch (Exception e) {
+                                System.out.print("\nHubo un error: " + e.getMessage());
+                            }
                             break;
                         case 3:
                             //Eliminar movimiento proximamente V2.1
@@ -59,7 +74,7 @@ public class App {
                         case 4:
                             //Historial de movimientos
                             System.out.println("Los movimientos guardados estan:");
-                            trans.getMovimientos();
+                            gs.getMovimientos();
                             break;
                         case 5:
                             //Ver patrimonio proximamente V2.1
@@ -67,16 +82,17 @@ public class App {
                             break;
                         case 6:
                             System.out.println("Muchas gracias por utilizar nuestro servicio, vuelva pronto.");
-                            flag = 1;
+                            login = 0;
                             break;     
                         default:
                             System.out.println("Opcion Incorrecta, por favor vuelva a intentarlo nuevamente");
                             break;
                     }
-                }while (opc !=6);
+                }while (login == 0 ^ MenuOP == 6);
             }
-        } while(flag != 1);
-        
+        } while( flag == 0 );
+        System.out.println("Salio exitosamente!");
         
     }
+
 }

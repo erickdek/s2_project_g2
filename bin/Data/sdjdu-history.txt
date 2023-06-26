@@ -1,0 +1,2 @@
+0,45.0,2023-06-25,"ganancia en la venta de hoy"
+1,14.0,2023-06-25,"compra de comida"

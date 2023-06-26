@@ -1,47 +1,38 @@
-public class User extends Base {
+public class User {
     //Declaracion de variables
-    public String name;
-    protected int CI;
-    protected long ID;
-    protected int role;
-    protected String user;
-    protected String pass;
+    private String name;
+    private long CI;
+    private int role;
+    private String user;
+    private String pass;
 
-    
+    public User(){
+        //Constructor vacio
+    };
+
+    public User(int role, long CI, String name, String user, String pass) {
+        this.name = name;
+        this.CI = CI;
+        this.role = role;
+        this.user = user;
+        this.pass = pass;
+    }
     
     //Encapsulamiento
-    /**
-     * Funcion para establecer un nombre
-     * @param name Nombre del usuario
-     * @return None
-    */
     public void setName(String name) {
         this.name = name;
     }
 
-    /**
-     * Funcion para obtener el nombre
-     * @param name Nombre del usuario
-     * @return None
-    */
     public String getName() {
         return name;
     }
 
-    public void setCI(int cI) {
+    public void setCI(long cI) {
         CI = cI;
     }
 
-    public int getCI() {
+    public long getCI() {
         return CI;
-    }
-
-    public void setID(long iD) {
-        ID = iD;
-    }
-
-    public long getID() {
-        return ID;
     }
 
     public void setRole(int role) {

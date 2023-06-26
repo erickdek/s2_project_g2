@@ -1,3 +1,6 @@
 1,0,120.0,2023-06-01,"Qhizpao gano con la beca"
 1,1,200.0,2023-06-01,"Qhizpao se gasto en el chonguito"
 1,1,120.0,2023-06-01,"Qhizpao se gasto de nuevo en el chongito"
+1,0,120.0,2023-06-01,"Descripcion del ingreso"
+1,1,120.0,2023-06-01,"Gasto descipcion"
+1,0,23.0,2023-06-25,"hola"
