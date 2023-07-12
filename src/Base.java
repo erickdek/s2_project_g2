@@ -3,12 +3,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 //Template for save in the files: writer.write(id + "," + fecha1 + "," + cantidad + "," + fecha2 + "," + "\"" + descripcion + "\"\n");
-public class Base {
+public class Base extends ManageMoney implements BaseMethods{
     //Almacenar los datos es ficheros
-    File userFile = new File("src\\Data\\"+"users.txt");
-    File transactionFile = new File("src\\Data\\"+"history.txt");
-    
-    private boolean createFile(File fileData){
+//    File userFile = new File("src\\Data\\"+"users.txt");
+//    File transactionFile = new File("src\\Data\\"+"history.txt");
+	@Override
+    public boolean createFile(File fileData){
         try {
             PrintWriter write = new PrintWriter(fileData); //Crear el archivo con el nombre fileData
             write.close(); //Cerramos el archivo.
@@ -19,7 +19,7 @@ public class Base {
             return false;
         }
     }
-
+    @Override
     public boolean checkFiles(){
         //Check userFile
         if (!userFile.exists() || userFile.isDirectory()){
@@ -27,6 +27,7 @@ public class Base {
         }
         return true;
     }
+    @Override
     public boolean checkFiles(User user){
         //Check userFile
         File userTransaction = new File("src\\Data\\"+ user.getUser() + "-history.txt");
@@ -47,6 +48,7 @@ public class Base {
      * @param value String para guardar los datos ejemplo: id + "," + fecha1 + "," + cantidad + "," + fecha2 + "," + "\"" + descripcion + "\"\n"
      * @return Boolean True - si todo fue exitoso
     */
+    @Override
     public boolean set( int type, String value ){
         File data = this.userFile;
         switch (type){
@@ -79,6 +81,7 @@ public class Base {
      * @param limit Entero Limite de datos para mostrar
      * @return Boolean True - si todo fue exitoso
     */
+    @Override
     public String[] get(int type) {
         List<String> result = new ArrayList<>();
         switch (type) {
@@ -117,6 +120,8 @@ public class Base {
             }
         return result.toArray(new String[0]);
     }
+    
+    @Override
     public String[] get(int type, int limit) {
         List<String> result = new ArrayList<>();
         switch (type) {
@@ -155,11 +160,12 @@ public class Base {
             }
         return result.toArray(new String[0]);
     }
-
+    @Override
     public boolean put(int type, int att, String value){
         return false;
     }
-
+    
+    @Override
     public boolean del(int type, int att){
         return false;
     }

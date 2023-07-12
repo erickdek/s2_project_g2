@@ -1,15 +1,14 @@
 import java.time.LocalDate;
 import java.util.*;
 
-public class Gestor {
-    Base root = new Base(); //Acceso a archivos
-    User user = new User(); //Usuario Actual
+public class Gestor extends ManageMoney implements GestorMethods{
+    
+//    List<Movimientos> arrTransaction = new ArrayList<>();
+//    List<User> arrUsers = new ArrayList<>();
+//
+//    double patrimonio = 0;
 
-    List<Movimientos> arrTransaction = new ArrayList<>();
-    List<User> arrUsers = new ArrayList<>();
-
-    double patrimonio = 0;
-
+	@Override
     public boolean Login(Scanner sc){
         boolean login = false;
         try {
@@ -29,9 +28,9 @@ public class Gestor {
                     login = true;
                     int role = Integer.parseInt(datos[0]);
                     long ci = Long.parseLong(datos[1]);
-                    user = new User(role, ci, datos[2], datos[3], datos[4]); //Establecemos el usuario logeado
+                    usr = new User(role, ci, datos[2], datos[3], datos[4]); //Establecemos el usuario logeado
                     //Check User
-                    root.checkFiles(user); //Chequeamos el archivo History del usuario actual
+                    root.checkFiles(usr); //Chequeamos el archivo History del usuario actual
                     break;
                 }
             }
@@ -44,7 +43,8 @@ public class Gestor {
             return false;
         }
     }
-
+    
+    @Override
     public boolean Register(Scanner sc){
         boolean login = false;
         try {
@@ -74,6 +74,7 @@ public class Gestor {
      * Funcion para Mostrar el Patrimonio
      * @return void
     */ 
+    @Override
     public void showPatrimonio(){
         //Proximamente V2.1
     }
@@ -90,6 +91,7 @@ public class Gestor {
      * @param desc Descripcion del movimiento.
      * @return boolean
     */ 
+    @Override
     public void delMovimientos(){
         //proximamente
     }
@@ -102,6 +104,7 @@ public class Gestor {
      * @param desc Descripcion del movimiento.
      * @return boolean
     */ 
+    @Override
     public boolean setMovimiento(int type, double amount, LocalDate date, String desc){
         String result = "";
         try {
@@ -121,6 +124,7 @@ public class Gestor {
      * @param desc Descripcion del movimiento.
      * @return boolean
     */ 
+    @Override
     public boolean getMovimiento(int type, double amount, LocalDate date, String desc){
         return true;
     }
@@ -133,6 +137,7 @@ public class Gestor {
      * @param desc Descripcion del movimiento.
      * @return boolean
     */ 
+    @Override
     public void getMovimientos(){
         try {
             //Obtenemos todos los movimientos
@@ -155,6 +160,7 @@ public class Gestor {
         }
     }
 
+    @Override
     public void showUsers(){
         //Obtenemos todos los usuarios
         String[] usuarios = root.get(0);

@@ -1,10 +1,4 @@
-public class User {
-    //Declaracion de variables
-    private String name;
-    private long CI;
-    private int role;
-    private String user;
-    private String pass;
+public class User extends ManageMoney{
 
     public User(){
         //Constructor vacio

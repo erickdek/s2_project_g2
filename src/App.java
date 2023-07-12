@@ -1,4 +1,3 @@
-import javax.swing.JOptionPane;
 import java.time.LocalDate;
 import java.util.Scanner;
 //Gestor de Movimientos
