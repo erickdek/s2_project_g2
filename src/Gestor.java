@@ -3,11 +3,6 @@ import java.util.*;
 
 public class Gestor extends ManageMoney implements GestorMethods{
     
-//    List<Movimientos> arrTransaction = new ArrayList<>();
-//    List<User> arrUsers = new ArrayList<>();
-//
-//    double patrimonio = 0;
-
 	@Override
     public boolean Login(Scanner sc){
         boolean login = false;

@@ -4,9 +4,6 @@ import java.util.List;
 
 //Template for save in the files: writer.write(id + "," + fecha1 + "," + cantidad + "," + fecha2 + "," + "\"" + descripcion + "\"\n");
 public class Base extends ManageMoney implements BaseMethods{
-    //Almacenar los datos es ficheros
-//    File userFile = new File("src\\Data\\"+"users.txt");
-//    File transactionFile = new File("src\\Data\\"+"history.txt");
 	@Override
     public boolean createFile(File fileData){
         try {
