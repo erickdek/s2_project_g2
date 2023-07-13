@@ -9,10 +9,10 @@ public class Base extends ManageMoney implements BaseMethods{
         try {
             PrintWriter write = new PrintWriter(fileData); //Crear el archivo con el nombre fileData
             write.close(); //Cerramos el archivo.
-            System.out.println("Archivo Creado."); 
             return true;
         } catch (FileNotFoundException e){
             e.printStackTrace(System.out);
+            System.out.print("\nHubo un error: " + e.getMessage());
             return false;
         }
     }
@@ -66,8 +66,10 @@ public class Base extends ManageMoney implements BaseMethods{
             return true;
         } catch (FileNotFoundException e){
             e.printStackTrace(System.out);
+            System.out.print("\nHubo un error: " + e.getMessage());
         } catch (IOException e){
             e.printStackTrace(System.out);
+            System.out.print("\nHubo un error: " + e.getMessage());
         }
         return false;
     }
@@ -94,8 +96,10 @@ public class Base extends ManageMoney implements BaseMethods{
                     userFileReader.close();
                 } catch (FileNotFoundException e) {
                     e.printStackTrace(System.out);
+                    System.out.print("\nHubo un error: " + e.getMessage());
                 } catch (IOException e) {
                     e.printStackTrace(System.out);
+                    System.out.print("\nHubo un error: " + e.getMessage());
                 }
                 break;
             case 1:
@@ -110,8 +114,10 @@ public class Base extends ManageMoney implements BaseMethods{
                     transactionFileReader.close();
                 } catch (FileNotFoundException e) {
                     e.printStackTrace(System.out);
+                    System.out.print("\nHubo un error: " + e.getMessage());
                 } catch (IOException e) {
                     e.printStackTrace(System.out);
+                    System.out.print("\nHubo un error: " + e.getMessage());
                 }
                 break;
             }
@@ -134,8 +140,10 @@ public class Base extends ManageMoney implements BaseMethods{
                     userFileReader.close();
                 } catch (FileNotFoundException e) {
                     e.printStackTrace(System.out);
+                    System.out.print("\nHubo un error: " + e.getMessage());
                 } catch (IOException e) {
                     e.printStackTrace(System.out);
+                    System.out.print("\nHubo un error: " + e.getMessage());
                 }
                 break;
             case 1:
@@ -150,8 +158,10 @@ public class Base extends ManageMoney implements BaseMethods{
                     transactionFileReader.close();
                 } catch (FileNotFoundException e) {
                     e.printStackTrace(System.out);
+                    System.out.print("\nHubo un error: " + e.getMessage());
                 } catch (IOException e) {
                     e.printStackTrace(System.out);
+                    System.out.print("\nHubo un error: " + e.getMessage());
                 }
                 break;
             }
@@ -162,8 +172,70 @@ public class Base extends ManageMoney implements BaseMethods{
         return false;
     }
     
+    /**
+     * Funcion para Eliminar una fila del fichero
+     * @param type Entero 0 = User, 1 = transaction
+     * @param numLine Entero numero de linea a eliminar
+     * @return Boolean True - si todo fue exitoso
+    */
     @Override
-    public boolean del(int type, int att){
+    public boolean del(int type, int numLine){
+        switch (type) {
+            case 0:
+                // Obtener los usuarios
+                try {
+                    System.out.println("Eliminando...");
+                    File tempFile = new File("src\\Data\\tempData.txt");
+                    BufferedReader userFileReader = new BufferedReader(new FileReader(this.userFile));
+                    BufferedWriter writerTempFile = new BufferedWriter(new FileWriter(tempFile));
+                    
+                    int linecurrent = 0;
+                    String line; // Guardas las lecturas
+                    while ((line = userFileReader.readLine()) != null) {
+                        linecurrent++; //Sumamos una linea mas sumada
+                        if(linecurrent == numLine) continue;
+                        writerTempFile.write(line + System.getProperty("line.separator"));
+                    }
+
+                    userFileReader.close();
+                    writerTempFile.close();
+                    this.userFile.delete();
+                    tempFile.renameTo(this.userFile);
+                    return true;
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace(System.out);
+                } catch (IOException e) {
+                    e.printStackTrace(System.out);
+                }
+                break;
+            case 1:
+                // Obtener los movimientos
+                try {
+                    System.out.println("Eliminando...");
+                    File tempFile = new File("src\\Data\\tempData.txt");
+                    BufferedReader transactionFileReader = new BufferedReader(new FileReader(this.transactionFile));
+                    BufferedWriter writerTempFile = new BufferedWriter(new FileWriter(tempFile));
+                    
+                    int linecurrent = 0;
+                    String line; // Guardas las lecturas
+                    while ((line = transactionFileReader.readLine()) != null) {
+                        linecurrent++; //Sumamos una linea mas sumada
+                        if(linecurrent == numLine) continue;
+                        writerTempFile.write(line + System.getProperty("line.separator"));
+                    }
+
+                    transactionFileReader.close();
+                    writerTempFile.close();
+                    this.transactionFile.delete();
+                    tempFile.renameTo(this.transactionFile);
+                    return true;
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace(System.out);
+                } catch (IOException e) {
+                    e.printStackTrace(System.out);
+                }
+                break;
+            }
         return false;
     }
 

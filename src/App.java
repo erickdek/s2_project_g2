@@ -68,7 +68,16 @@ public class App {
                             break;
                         case 3:
                             //Eliminar movimiento proximamente V2.1
-                            
+                            try{
+                                System.out.println("Los movimientos que tienes son:");
+                                gs.getMovimientos();
+                                System.out.println("\n================================================\n");
+                                System.out.print("Ingresa el ID del movimiento a eliminar: ");
+                                int numLine = sc.nextInt();
+                                gs.delMovimientos(numLine);
+                            } catch(Exception e) {
+                                System.out.print("\nHubo un error: " + e.getMessage());
+                            }
                             break;
                         case 4:
                             //Historial de movimientos
@@ -77,7 +86,7 @@ public class App {
                             break;
                         case 5:
                             //Ver patrimonio proximamente V2.1
-                            
+                            gs.showPatrimonio();
                             break;
                         case 6:
                             System.out.println("Muchas gracias por utilizar nuestro servicio, vuelva pronto.");

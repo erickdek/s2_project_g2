@@ -19,9 +19,6 @@ public abstract class ManageMoney {
     protected File userFile = new File("src\\Data\\"+"users.txt");
     protected File transactionFile = new File("src\\Data\\"+"history.txt");
     //Gestor
-    protected Base root = new Base(); //Acceso a archivos
-    protected User usr = new User(); //Usuario Actual
-    
     List<Movimientos> arrTransaction = new ArrayList<>();
     List<User> arrUsers = new ArrayList<>();
 

@@ -2,7 +2,9 @@ import java.time.LocalDate;
 import java.util.*;
 
 public class Gestor extends ManageMoney implements GestorMethods{
-    
+    protected Base root = new Base(); //Acceso a archivos
+    protected User usr = new User(); //Usuario Actual
+
 	@Override
     public boolean Login(Scanner sc){
         boolean login = false;
@@ -71,7 +73,31 @@ public class Gestor extends ManageMoney implements GestorMethods{
     */ 
     @Override
     public void showPatrimonio(){
-        //Proximamente V2.1
+        try {
+            //Obtenemos todos los movimientos
+            String[] transaction = root.get(1);
+            double patriTotal = 0.0;
+            double patriIngreso = 0.0;
+            double patriEgreso = 0.0;
+            //Recorremos el array
+            for (String infoTransaction : transaction) {
+                String[] datos = infoTransaction.split(",");
+                if (Integer.parseInt(datos[0]) == 0){
+                    patriIngreso += Double.parseDouble(datos[1]);
+                } else {
+                    patriEgreso += Double.parseDouble(datos[1]);
+                }
+            }
+            patriTotal = patriIngreso - patriEgreso;
+            System.out.println(
+                "Su Patrimonio es: $USD" + patriTotal +
+                "\nTotal de Ingresos: $USD" + patriIngreso +
+                "\nTotal de Egresos: $USD:" + patriEgreso
+            );
+            return;
+        } catch (Exception e) {
+            return;
+        }
     }
 
 
@@ -80,15 +106,15 @@ public class Gestor extends ManageMoney implements GestorMethods{
 
     /**
      * Funcion para Eliminar Movimientos.
-     * @param type 0 = Ingreso, 1 = Egreso.
-     * @param amount Double de la cantidad todal.
-     * @param date Fecha del movimiento.
-     * @param desc Descripcion del movimiento.
+     * @param numLine numero de linea a eliminar
      * @return boolean
     */ 
     @Override
-    public void delMovimientos(){
+    public void delMovimientos(int numLine){
         //proximamente
+        if(root.del(1, numLine)){
+            System.out.println("Dato eliminado correctamente...");
+        };
     }
 
     /**
