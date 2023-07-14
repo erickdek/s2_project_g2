@@ -45,20 +45,41 @@ public class Gestor extends ManageMoney implements GestorMethods{
     public boolean Register(Scanner sc){
         boolean login = false;
         try {
+            String enterPass,enterRePass,enterName,enterUser;
+            boolean flag = false;
             sc.nextLine();
+            int Role = 0;
+
             System.out.print("\nIngresa tu Nombre: ");
-            String enterName = sc.nextLine();
+            enterName = sc.nextLine();
+
             System.out.print("\nIngresa tu Cedula/DNI: ");
             Long enterCI = sc.nextLong();
+
+            sc.nextLine(); //Limpiar
+
             System.out.print("\nIngresa tu username: ");
-            String enterUser = sc.nextLine();
+            enterUser = sc.nextLine();
             System.out.print("\nIngresa tu Contraseña: ");
-            String enterPass = sc.nextLine();
-            System.out.print("\nVuelve a ingresar tu Contraseña: ");
-            String enterRePass = sc.nextLine();
+                enterPass = sc.nextLine();
+
+                System.out.print("\nVuelve a ingresar tu Contraseña: ");
+                enterRePass = sc.nextLine();
+            
+            String result = "";
+            try {
+                result =  Role + "," + enterCI + "," + enterName + "," + enterUser + enterPass;
+                if(root.set(0, result)) {
+                    login = true;
+                    usr = new User(role, enterCI, enterName, enterUser, enterPass); //Establecemos el usuario logeado
+                }; //Aqui debe de haber un metodo de movimiento
+            } catch (Exception e) {
+                return false;
+            }
             
             return login;
         } catch (Exception e) {
+            System.out.print("\n Hubo un error: " + e.getMessage());
             return false;
         }
     }

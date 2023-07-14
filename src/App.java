@@ -27,7 +27,7 @@ public class App {
                             if ( gs.Login(sc) ){login = 1;}
                             break;
                         case 2:
-                            if ( gs.Login(sc) ){login = 1;}
+                            if ( gs.Register(sc) ){login = 1;}
                             break;
                         case 3:
                             System.out.print("\nGracias por usar...");

@@ -1,3 +1,4 @@
-0,45.0,2023-06-25,"ganancia trabajando freelancer"
 0,200.0,2023-06-25,"ganancia del trabajo por hacer unas webs"
 1,30.0,2023-06-25,"gasto en productos de primera necesidad"
+0,123456.0,2023-07-13,"Test 1"
+1,123456.0,2023-07-13,"Gasto Test 1"
