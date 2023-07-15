@@ -60,18 +60,29 @@ public class Gestor extends ManageMoney implements GestorMethods{
 
             System.out.print("\nIngresa tu username: ");
             enterUser = sc.nextLine();
-            System.out.print("\nIngresa tu Contraseña: ");
+            //PASSWORD
+            do{
+                flag = false;
+                System.out.print("\nIngresa tu Contraseña: ");
                 enterPass = sc.nextLine();
 
                 System.out.print("\nVuelve a ingresar tu Contraseña: ");
                 enterRePass = sc.nextLine();
-            
+
+                if (!enterPass.equals(enterRePass)){
+                    flag = true;
+                    System.out.println("Las contraseñas no coinciden");
+                }
+            } while (flag);
+
             String result = "";
             try {
-                result =  Role + "," + enterCI + "," + enterName + "," + enterUser + enterPass;
+                result =  Role + "," + enterCI + "," + enterName + "," + enterUser + "," + enterPass;
                 if(root.set(0, result)) {
                     login = true;
                     usr = new User(role, enterCI, enterName, enterUser, enterPass); //Establecemos el usuario logeado
+                    //Check User
+                    root.checkFiles(usr); //Chequeamos el archivo History del usuario actual
                 }; //Aqui debe de haber un metodo de movimiento
             } catch (Exception e) {
                 return false;

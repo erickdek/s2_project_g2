@@ -33,10 +33,15 @@ public class App {
                             System.out.print("\nGracias por usar...");
                             flag = 1; login = 0;
                             break;
+                        default:
+                            System.out.println("Opcion Incorrecta, por favor vuelva a intentarlo nuevamente");
+                            break;
                         }
-                } while ( login == 0 ^ loginOP == 3 );
+                        sc.nextLine();
+                } while ( login == 0 ^ loginOP == 3 ); //XOR
+
             } else if(login == 1){
-                do{ 
+                do{
                     MenuOP = mn.MenuPrincipal(sc);
                     
                     switch (MenuOP) {
@@ -96,6 +101,7 @@ public class App {
                             System.out.println("Opcion Incorrecta, por favor vuelva a intentarlo nuevamente");
                             break;
                     }
+                    sc.nextLine();
                 }while (login == 0 ^ MenuOP == 6);
             }
         } while( flag == 0 );

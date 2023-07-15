@@ -1,5 +1,4 @@
 import java.util.*;
-
 public class Menu {
 
     public void ShowCurrentUser(User user){
@@ -25,7 +24,7 @@ public class Menu {
             "=======================================\n" +
             "Ingrese una opcion: "
         );
-        op = sc.nextInt();
+        op = getIOInt(sc, -9);
         return op;
     }
 
@@ -43,7 +42,32 @@ public class Menu {
             "=======================================\n" +
             "Ingrese una opcion: "
         );
-        op = sc.nextInt();
+        op = getIOInt(sc, -9);
         return op;
+    }
+
+    
+    //Capturar String y capturar errores en caso de ingrese un dato no valido
+    public static String getIOString(Scanner sc){
+        try {
+            String data;
+            data = sc.nextLine();
+            return data;
+        } catch (Exception e) {
+            System.out.println("Ingresaste un dato no valido!");
+            return null;
+        }
+    }
+
+    //Capturar INT y capturar errores en caso de ingrese un dato no valido
+    public static int getIOInt(Scanner sc, int defaultV){
+        try {
+            int data;
+            data = sc.nextInt();
+            return data;
+        } catch (Exception e) {
+            System.out.println("Ingresaste un dato no valido!");
+            return defaultV;
+        }
     }
 }
