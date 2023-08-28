@@ -1,6 +1,1 @@
-0,0987654321,Erick,sdjdu,pass
-1,0987654321,Erick,erick,1234560
-0,987654321,test user IDK,testuser,pass
-0,1234565321,testusss,usertest,pass
-0,123456789,test nombre,testusername,passpass
-0,1234567654321,test nombre del usuario,tranaka1,pass
+0,123456789,juan,juan,123456789
