@@ -13,6 +13,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 
 /**
@@ -61,7 +62,7 @@ public class generatePDF {
 
             document.add(pdfTable);
             document.close();
-
+            JOptionPane.showMessageDialog(null, "Reporte generado Correctamente.");
             System.out.println("PDF generate - " + outputPath);
         } catch (DocumentException e) {
             e.printStackTrace();

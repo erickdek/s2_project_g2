@@ -2,6 +2,7 @@ package Controller;
 
 import TypeData.User;
 import com.mongodb.client.FindIterable;
+import com.mongodb.client.MongoCursor;
 import interfaces.GestorMethods;
 import interfaces.MovimientosMethods;
 import java.util.Arrays;
@@ -84,17 +85,46 @@ public class Gestor implements GestorMethods, MovimientosMethods {
     */ 
     @Override
     public double getPatrimonio(User user){
+        double patriTotal = 0.0;
         try {
             //Obtenemos todos los movimientos
-            double patriTotal = 0.0;
-            double patriIngreso = 0.0;
-            double patriEgreso = 0.0;
             Document doc = new Document("user_id", user.getId());
-            root.get(1, doc);
-            
+            FindIterable<Document> documents = root.get(1, doc);
+        
+            try (MongoCursor<Document> cursor = documents.iterator()) {
+                while(cursor.hasNext()){
+                    Document document = cursor.next();
+                    if (document.getDouble("amount") != null){
+                        if(document.getInteger("type") != 1){
+                            patriTotal -= document.getDouble("amount");
+                        } else{
+                            patriTotal += document.getDouble("amount");
+                        }
+
+                    }
+                }
+                root.put(0, new Document("_id", user.getId()), new Document("patrimonio", patriTotal));
+                return patriTotal;
+            } catch (Exception e){
+                System.out.println("Hubo un error : " + e);
+            }
             return patriTotal;
         } catch (Exception e) {
-            return 0.0;
+            return patriTotal;
+        }
+    }
+    
+    /**
+     * Funcion para Mostrar el Patrimonio
+     * @return double
+    */ 
+    @Override
+    public boolean putUser(Document doc, Document put){
+        double patriTotal = 0.0;
+        try {
+            return root.put(0, doc, put);
+        } catch (Exception e) {
+            return false;
         }
     }
 
@@ -139,12 +169,12 @@ public class Gestor implements GestorMethods, MovimientosMethods {
      * @param doc Documento con los valores a guardar
      * @return boolean
     */ 
-    
-    public boolean uptMovimiento(Document doc){
+    @Override
+    public boolean putMovimiento(Document doc, Document put){
         // 0 INGRESO - 1 EGRESO
         try {
             //Aqui debe de haber un metodo de movimiento
-            return root.set(1, doc);
+            return root.put(1, doc, put);
         } catch (Exception e) {
             e.printStackTrace();
             return false;

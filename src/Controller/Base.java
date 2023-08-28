@@ -150,6 +150,32 @@ public class Base implements BaseMethods{
     */
     @Override
     public boolean put(int type, Document doc, Document put){
+        // Crear un documento con los nuevos valores
+        Document update = new Document("$set", put);
+        
+        switch (type) {
+            case 0:
+                //USUARIOS
+                try {
+                    // Actualizar el documento
+                    users.updateOne(doc, update);
+                    return true;
+                } catch (Exception e){
+                    e.printStackTrace();
+                    JOptionPane.showMessageDialog(null, "Hubo un error al eliminar un dato.");
+                }
+                break;
+            case 1:
+                //MOVIMIENTOS
+                try {
+                    movimientos.updateOne(doc, update);
+                    return true;
+                } catch (Exception e){
+                    e.printStackTrace();
+                    JOptionPane.showMessageDialog(null, "Hubo un error al eliminar un dato.");
+                }
+                break;
+            }
         return false;
     }
     

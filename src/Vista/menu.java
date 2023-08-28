@@ -60,16 +60,15 @@ public class menu extends javax.swing.JFrame {
     }
     
     public static double convertToDouble(String decimalStr) {
-        NumberFormat numberFormat = NumberFormat.getInstance(Locale.getDefault());
-        double result = 0.0;
-        
+        decimalStr = decimalStr.replace(",", ".").replace(".", ".");
+
         try {
-            result += numberFormat.parse(decimalStr).doubleValue();
-        } catch (ParseException e) {
+            double result = Double.parseDouble(decimalStr);
+            return result;
+        } catch (NumberFormatException e) {
             System.out.println("Error al convertir la cadena a double.");
+            return 0.0;
         }
-        
-        return result;
     }
 
     /**
@@ -137,6 +136,11 @@ public class menu extends javax.swing.JFrame {
         ));
         JTableHeader header = tblMovimientos.getTableHeader();
         header.setReorderingAllowed(false);
+        tblMovimientos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblMovimientosMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tblMovimientos);
 
         jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 112, -1, 360));
@@ -603,31 +607,56 @@ public class menu extends javax.swing.JFrame {
     }//GEN-LAST:event_btnPDFMouseClicked
 
     private void btnSaveEditarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSaveEditarMouseClicked
-        //OBTENER VALORES
-        String day = txtDay.getText();
-        String desc = txtDesc.getText();
-        int state = 0;
         
-        resetFields(); //Reseteamos los campos
-        
-        int fila = tblMovimientos.getSelectedRow();
-        ObjectId id = new ObjectId((String) tblMovimientos.getValueAt(fila, 0));
-        
-        Document newDocument = new Document("title", title).append("description", desc).append("state", state);
-        //Remplazamos el documento con el id igual
-        getData();
-        
-        
+        try {
+            //OBTENER VALORES
+            String date = txtYear.getText()+"-"+txtMonth.getText()+"-"+txtDay.getText();
+            String desc = txtDesc.getText();
+            if(!isValidDate(date)){
+                JOptionPane.showMessageDialog(null, "La fecha ingresada : " + date + " no es valida.");
+                return;
+            }
+            Double amount = convertToDouble(txtMonto.getText());
+            resetFields(); //Reseteamos los campos
+            
+            int fila = tblMovimientos.getSelectedRow();
+            ObjectId id = new ObjectId((String) tblMovimientos.getValueAt(fila, 0));
+            
+            Document doc = new Document("_id", id);
+            Document update = new Document("user_id", usuario.getId())
+                    .append("date", date)
+                    .append("amount", amount)
+                    .append("desc", desc);
+            gs.putMovimiento(doc, update);
+            getData();
+        } catch(Exception e){
+            JOptionPane.showMessageDialog(null, "Hubo un error.");
+        }
     }//GEN-LAST:event_btnSaveEditarMouseClicked
 
     private void btnSaveEliminarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSaveEliminarMouseClicked
-       int fila = tblMovimientos.getSelectedRow();
+        int fila = tblMovimientos.getSelectedRow();
         ObjectId id = new ObjectId((String) tblMovimientos.getValueAt(fila, 0));
-        
         gs.delMovimiento(new Document("_id", id));
-        
         getData();
     }//GEN-LAST:event_btnSaveEliminarMouseClicked
+
+    private void tblMovimientosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblMovimientosMouseClicked
+        int fila = tblMovimientos.getSelectedRow();
+        String date = (String) tblMovimientos.getValueAt(fila, 1);
+        String desc = (String) tblMovimientos.getValueAt(fila, 2);
+        String amount = (String) tblMovimientos.getValueAt(fila, 3);
+        
+        String[] dateInd = date.split("-");
+        
+        txtYear.setText(dateInd[0]);
+        txtMonth.setText(dateInd[1]);
+        txtDay.setText(dateInd[2]);
+        
+        txtDesc.setText(desc);
+        txtMonto.setText(amount);
+        
+    }//GEN-LAST:event_tblMovimientosMouseClicked
 
     private void resetFields(){
         txtDay.setText("");
@@ -637,7 +666,7 @@ public class menu extends javax.swing.JFrame {
         txtDesc.setText("");
     }
     
-    private void getData(){
+    private double getData(){
         //OBTENEMOS LOS DATOS
         Document user_movimientos = new Document("user_id", usuario.getId());
         FindIterable<Document> documents = gs.getMovimiento(user_movimientos);
@@ -656,7 +685,7 @@ public class menu extends javax.swing.JFrame {
                 registro[2] = document.getString("desc");
                 registro[3] = "0";
                 if (document.getDouble("amount") != null){
-                    if(document.getInteger("type") != 1){
+                    if(document.getInteger("type") != 0){
                         balance -= document.getDouble("amount");
                         registro[3] = "-" + document.getDouble("amount").toString();
                     } else{
@@ -668,11 +697,16 @@ public class menu extends javax.swing.JFrame {
                 
                 modelo.addRow(registro);
             }
+            usuario.setPatrimonio(balance);
+            gs.putUser(new Document("_id", usuario.getId()), new Document("patrimonio", balance));
+            this.balance.setText("USD$ " + usuario.getPatrimonio());
             tblMovimientos.setModel(modelo);
+            return balance;
         } catch (Exception e){
             JOptionPane.showMessageDialog(null, "Error al mostrar los datos.");
             System.out.println("Hubo un error : " + e);
         }
+        return balance;
     }
     
     /**
